@@ -1,0 +1,21 @@
+name: wf-ci-develop
+on:
+  pull_request:
+    branches:
+      - develop 
+    types:
+      - opened
+      - synchronize
+jobs:
+  ci-develop-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository on the Runner
+        uses: actions/checkout@v4
+      - name: Lint HTML Files WIth HTMLHint
+        run: npx htmlhint "**/*.html"
+      - name: Lint CSS Files WIth Stylelint
+        run: npx stylelint "**/*.css"
+      - name: Build Wesbite With Parcel
+        run: npx parcel build "./src/index.html" --dist-dir "./dist" --public-url "./"
+
